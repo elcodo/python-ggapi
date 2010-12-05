@@ -57,35 +57,35 @@ Example
 
 Quick Django example view::
 
-from ggapi import GG
+    from ggapi import GG
 
-CLIENT_ID = ""
-CLIENT_SECRET = ""
-REDIRECT_URI = ""
+    CLIENT_ID = ""
+    CLIENT_SECRET = ""
+    REDIRECT_URI = ""
 
 
-def test(request):
-    if "code" in request.GET:
-        gg = GG(client_id=CLIENT_ID, client_secret=CLIENT_SECRET,
-            code=request.GET["code"], redirect_uri=REDIRECT_URI)
-        access_token, refresh_token = gg.get_tokens()
-    else:
-        access_token, refresh_token = (...)your logic, e.g. get from SESSION(...)
-        gg = GG(client_id=CLIENT_ID, client_secret=CLIENT_SECRET,
-            access_token=access_token, refresh_token=refresh_token,
-            redirect_uri=REDIRECT_URI)
+    def test(request):
+        if "code" in request.GET:
+            gg = GG(client_id=CLIENT_ID, client_secret=CLIENT_SECRET,
+                code=request.GET["code"], redirect_uri=REDIRECT_URI)
+            access_token, refresh_token = gg.get_tokens()
+        else:
+            access_token, refresh_token = (...)your logic, e.g. get from SESSION(...)
+            gg = GG(client_id=CLIENT_ID, client_secret=CLIENT_SECRET,
+                access_token=access_token, refresh_token=refresh_token,
+                redirect_uri=REDIRECT_URI)
 
-    friend_list = gg.get_friends()
-    my_info = gg.get_user()
-    other_info = gg.get_user(2080)
+        friend_list = gg.get_friends()
+        my_info = gg.get_user()
+        other_info = gg.get_user(2080)
 
-    if gg.send_notification(2080, "Notification", "http://elcodo.pl"):
-        # Notification send, yay!
-        pass
+        if gg.send_notification(2080, "Notification", "http://elcodo.pl"):
+            # Notification send, yay!
+            pass
 
-    if gg.send_event(message="Dashboard message"):
-        # Posted to my dashboard!
-        pass
+        if gg.send_event(message="Dashboard message"):
+            # Posted to my dashboard!
+            pass
 
 License
 -------
