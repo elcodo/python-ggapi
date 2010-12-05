@@ -167,6 +167,10 @@ class GG(object):
         result = simplejson.loads(resp)
         return (result['access_token'], result['refresh_token'])
 
+    def get_tokens(self):
+        """Returns access_token and refresh_token"""
+        return (self.access_token, self.refresh_token)
+
     def get_user(self, uin=None):
         """Get user from public directory"""
         url = u"%s/users/%s" % (SCOPE_PUBDIR_URL, self._format_uin(uin))
@@ -182,7 +186,7 @@ class GG(object):
         result = simplejson.loads(self._do_request(url, method="GET"))
         return result['result']
 
-    def send_notification(self, user, message, link):
+    def send_notification(self, user, message, link=None):
         """Send notification message to user(s).
         Returns True if message was send.
 
@@ -196,8 +200,10 @@ class GG(object):
         data = {
             'to': user,
             'message': message,
-            'link': link,
         }
+        if link:
+            data['link'] = link
+
         resp = self._do_request(url, method="POST", data=data)
         result = simplejson.loads(resp)
         if result['result']['status'] == 0:
